@@ -28,7 +28,7 @@
 
 #include "sdkconfig.h"
 
-#if CONFIG_BT_NIMBLE_ENABLED
+#if CHIP_DEVICE_CONFIG_ENABLE_BT_NIMBLE
 
 #include <ble/CHIPBleServiceData.h>
 #include <platform/internal/BLEManager.h>
@@ -37,9 +37,11 @@
 #include <system/SystemTimer.h>
 
 #include "esp_log.h"
-#include "esp_nimble_hci.h"
 #include "host/ble_hs.h"
+#if !CONFIG_IDF_TARGET_ESP32H2
+#include "esp_nimble_hci.h"
 #include "host/ble_hs_pvcy.h"
+#endif
 #include "host/ble_uuid.h"
 #include "host/util/util.h"
 #include "nimble/nimble_port.h"
@@ -618,8 +620,9 @@ CHIP_ERROR BLEManagerImpl::InitESPBleLayer(void)
     {
         mSubscribedConIds[i] = BLE_CONNECTION_UNINITIALIZED;
     }
-
+#if !CONFIG_IDF_TARGET_ESP32H2
     err = MapBLEError(esp_nimble_hci_and_controller_init());
+#endif
     SuccessOrExit(err);
 
     nimble_port_init();
@@ -1149,6 +1152,6 @@ void BLEManagerImpl::DriveBLEState(intptr_t arg)
 } // namespace DeviceLayer
 } // namespace chip
 
-#endif // CONFIG_BT_NIMBLE_ENABLED
+#endif // CHIP_DEVICE_CONFIG_ENABLE_BT_NIMBLE
 
 #endif // CHIP_DEVICE_CONFIG_ENABLE_CHIPOBLE

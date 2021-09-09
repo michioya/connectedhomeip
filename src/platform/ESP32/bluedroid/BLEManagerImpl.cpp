@@ -29,7 +29,7 @@
 
 #include "sdkconfig.h"
 
-#if CONFIG_BT_BLUEDROID_ENABLED
+#if CHIP_DEVICE_CONFIG_ENABLE_BT_BLUEDROID
 
 #include <ble/CHIPBleServiceData.h>
 #include <platform/internal/BLEManager.h>
@@ -1366,6 +1366,6 @@ void BLEManagerImpl::DriveBLEState(intptr_t arg)
 } // namespace DeviceLayer
 } // namespace chip
 
-#endif // CONFIG_BT_BLUEDROID_ENABLED
+#endif // CHIP_DEVICE_CONFIG_ENABLE_BT_BLUEDROID
 
 #endif // CHIP_DEVICE_CONFIG_ENABLE_CHIPOBLE

@@ -29,13 +29,13 @@
 
 #include "sdkconfig.h"
 
-#if CONFIG_BT_BLUEDROID_ENABLED
+#if CHIP_DEVICE_CONFIG_ENABLE_BT_BLUEDROID
 
 #include "core/CHIPCallback.h"
 #include "esp_bt.h"
 #include "esp_gap_ble_api.h"
 #include "esp_gatts_api.h"
-#elif CONFIG_BT_NIMBLE_ENABLED
+#elif CHIP_DEVICE_CONFIG_ENABLE_BT_NIMBLE
 
 /* min max macros in NimBLE can cause build issues with generic min max
  * functions defined in CHIP.*/
@@ -143,7 +143,7 @@ private:
         kMaxDeviceNameLength = 16
     };
 
-#if CONFIG_BT_NIMBLE_ENABLED
+#if CHIP_DEVICE_CONFIG_ENABLE_BT_NIMBLE
     uint16_t mSubscribedConIds[kMaxConnections];
 #endif
 
@@ -178,9 +178,9 @@ private:
 
     CHIPoBLEConState mCons[kMaxConnections];
     CHIPoBLEServiceMode mServiceMode;
-#if CONFIG_BT_BLUEDROID_ENABLED
+#if CHIP_DEVICE_CONFIG_ENABLE_BT_BLUEDROID
     esp_gatt_if_t mAppIf;
-#elif CONFIG_BT_NIMBLE_ENABLED
+#elif CHIP_DEVICE_CONFIG_ENABLE_BT_NIMBLE
     uint16_t mNumGAPCons;
 #endif
     uint16_t mServiceAttrHandle;
@@ -205,7 +205,7 @@ private:
     static void HandleAdvertisementTimer(System::Layer * systemLayer, void * context);
     void HandleAdvertisementTimer();
 
-#if CONFIG_BT_BLUEDROID_ENABLED
+#if CHIP_DEVICE_CONFIG_ENABLE_BT_BLUEDROID
     void HandleGATTControlEvent(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t * param);
     void HandleGATTCommEvent(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t * param);
     void HandleRXCharWrite(esp_ble_gatts_cb_param_t * param);
@@ -220,7 +220,7 @@ private:
     static void HandleGATTEvent(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t * param);
     static void HandleGAPEvent(esp_gap_ble_cb_event_t event, esp_ble_gap_cb_param_t * param);
 
-#elif CONFIG_BT_NIMBLE_ENABLED
+#elif CHIP_DEVICE_CONFIG_ENABLE_BT_NIMBLE
     void HandleRXCharRead(struct ble_gatt_char_context * param);
     void HandleRXCharWrite(struct ble_gatt_char_context * param);
     void HandleTXCharWrite(struct ble_gatt_char_context * param);

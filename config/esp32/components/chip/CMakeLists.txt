@@ -30,6 +30,10 @@ if(NOT CHIP_ROOT)
 endif()
 
 set(CHIP_REQURIE_COMPONENTS freertos lwip bt mdns mbedtls fatfs)
+if(${IDF_TARGET} STREQUAL "esp32h2")
+    list(APPEND CHIP_REQURIE_COMPONENTS openthread mynewt_nimble)
+endif()
+
 if (CONFIG_ENABLE_CHIP_SHELL)
     list(APPEND CHIP_REQURIE_COMPONENTS console)
 endif()
@@ -78,6 +82,9 @@ if (CONFIG_ENABLE_CHIP_SHELL)
     chip_gn_arg_append("chip_build_libshell"                "true")
 endif()
 
+if (CONFIG_OPENTHREAD_ENABLED)
+    chip_gn_arg_append("chip_enable_openthread"                 "true")
+endif()
 
 set(args_gn_input "${CMAKE_CURRENT_BINARY_DIR}/args.gn.in")
 file(GENERATE OUTPUT "${args_gn_input}" CONTENT "${chip_gn_args}")
@@ -154,6 +161,7 @@ target_include_directories(${COMPONENT_LIB} PRIVATE
 
 target_include_directories(${COMPONENT_LIB} INTERFACE
     "${CHIP_ROOT}/src/platform/ESP32"
+    "${CHIP_ROOT}/src/platform/OpenThread"
     "${CHIP_ROOT}/src/include"
     "${CHIP_ROOT}/src/lib"
     "${CHIP_ROOT}/src"
@@ -171,9 +179,21 @@ if(CONFIG_BT_ENABLED)
     list(APPEND chip_libraries $<TARGET_FILE:${bt_lib}> -lbtdm_app)
 endif()
 
+if(("${CONFIG_IDF_TARGET}" STREQUAL "esp32h2") AND ("${CONFIG_NIMBLE_ENABLED}" STREQUAL "y"))
+    idf_component_get_property(mynewt_nimble_lib mynewt_nimble COMPONENT_LIB)
+    idf_component_get_property(mynewt_nimble_dir mynewt_nimble COMPONENT_DIR)
+    list(APPEND chip_libraries $<TARGET_FILE:${mynewt_nimble_lib}>)
+    list(APPEND chip_libraries ${mynewt_nimble_dir}/controller/lib/esp32h2beta/libcontroller_5p0_seq.a)
+endif()
+
 if (CONFIG_ENABLE_CHIP_SHELL)
     idf_component_get_property(console_lib console COMPONENT_LIB)
     list(APPEND chip_libraries $<TARGET_FILE:${console_lib}>)
+endif()
+
+if(CONFIG_OPENTHREAD_ENABLED)
+    idf_component_get_property(openthread_lib openthread COMPONENT_LIB)
+    list(APPEND chip_libraries $<TARGET_FILE:${openthread_lib}>)
 endif()
 
 if(NOT CONFIG_USE_MINIMAL_MDNS)
