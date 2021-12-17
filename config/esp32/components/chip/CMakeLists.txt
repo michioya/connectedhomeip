@@ -185,7 +185,8 @@ idf_component_get_property(freertos_dir freertos COMPONENT_DIR)
 # ESP-IDF components usually need 'freertos/<header.h>', while
 # CHIP might include do 'header.h'.
 target_include_directories(${COMPONENT_LIB} PRIVATE
-    "${freertos_dir}/include/freertos")
+    "${freertos_dir}/include/freertos"
+    "${freertos_dir}/FreeRTOS-Kernel/include/freertos")
 
 target_include_directories(${COMPONENT_LIB} INTERFACE
     "${CHIP_ROOT}/src/platform/ESP32"
