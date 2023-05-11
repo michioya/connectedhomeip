@@ -107,8 +107,13 @@ if (chip_crypto == "openssl") {
 } else if (chip_crypto == "mbedtls") {
   import("//build_overrides/mbedtls.gni")
 
+  # TODO: This would break things for other platforms using mbedtls
+  # figure out something
   source_set("cryptopal_mbedtls") {
-    sources = [ "CHIPCryptoPALmbedTLS.cpp" ]
+    sources = [
+        "CHIPCryptoPALmbedTLS.cpp",
+        "CHIPCryptoPALESP32.h"
+    ]
     public_deps = [ ":public_headers" ]
 
     if (!chip_external_mbedtls) {
