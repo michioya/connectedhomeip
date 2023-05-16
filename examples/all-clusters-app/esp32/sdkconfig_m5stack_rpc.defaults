@@ -62,6 +62,8 @@ CONFIG_ENABLE_CHIP_SHELL=n
 CONFIG_ESPTOOLPY_FLASHSIZE_4MB=y
 CONFIG_ESPTOOLPY_FLASHSIZE="4MB"
 
+# Enable HKDF in mbedtls
+CONFIG_MBEDTLS_HKDF_C=y
 
 #disable Bluetooth modem sleep
 #enable it may cause GPIO ISR triggers continuously
