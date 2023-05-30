@@ -436,6 +436,9 @@ list(APPEND chip_libraries $<TARGET_FILE:${esp_system_lib}>)
 idf_component_get_property(soc_lib soc COMPONENT_LIB)
 list(APPEND chip_libraries $<TARGET_FILE:${soc_lib}>)
 
+idf_component_get_property(wpa_supplicant_lib wpa_supplicant COMPONENT_LIB)
+list(APPEND chip_libraries $<TARGET_FILE:${wpa_supplicant_lib}>)
+
 idf_component_get_property(efuse_lib efuse COMPONENT_LIB)
 list(APPEND chip_libraries $<TARGET_FILE:${efuse_lib}>)
 
