@@ -39,6 +39,11 @@
 #include <lwip/nd6.h>
 #include <lwip/netif.h>
 
+#define CONFIG_ETH_PHY_ADDR 1
+#define CONFIG_ETH_PHY_RST_GPIO 2
+#define CONFIG_ETH_MDC_GPIO 3
+#define CONFIG_ETH_MDIO_GPIO 4
+
 #if CHIP_DEVICE_CONFIG_ENABLE_ETHERNET
 
 using namespace ::chip;
