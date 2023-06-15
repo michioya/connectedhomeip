@@ -34,6 +34,9 @@
 #include "esp_netif.h"
 #include "esp_wifi.h"
 
+#include "esp_eth_mac_esp.c"
+#include "esp_eth_phy_ip101.c"
+
 #include <lwip/dns.h>
 #include <lwip/ip_addr.h>
 #include <lwip/nd6.h>
