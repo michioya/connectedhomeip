@@ -97,7 +97,7 @@ private:
     void _OnPlatformEvent(const ChipDeviceEvent * event);
 
 #if CHIP_DEVICE_CONFIG_ENABLE_ETHERNET
-    CHIP_ERROR InitEthernet(void);
+    CHIP_ERROR InitEthernet();
     void OnEthernetPlatformEvent(const ChipDeviceEvent * event);
 #endif
 
@@ -170,6 +170,9 @@ private:
     friend ConnectivityManagerImpl & ConnectivityMgrImpl(void);
 
     static ConnectivityManagerImpl sInstance;
+
+public:
+    static esp_err_t (*spe_transmit)(void *h, void *buffer, size_t len);
 };
 
 #if CHIP_DEVICE_CONFIG_ENABLE_WIFI
