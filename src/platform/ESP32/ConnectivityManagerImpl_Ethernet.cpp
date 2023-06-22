@@ -64,8 +64,8 @@ CHIP_ERROR ConnectivityManagerImpl::InitEthernet()
     esp_netif_config_t cfg  = ESP_NETIF_DEFAULT_ETH();
     
     // for SPE.
-    cfg->driver->transmit = ConnectivityManagerImpl::spe_transmit;
-    
+    cfg.driver.transmit = ConnectivityManagerImpl::spe_transmit;
+
     esp_netif_t * eth_netif = esp_netif_new(&cfg);
 
     // for SPE.
