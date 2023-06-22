@@ -54,6 +54,8 @@ namespace chip {
 namespace DeviceLayer {
 
 ConnectivityManagerImpl ConnectivityManagerImpl::sInstance;
+
+esp_err_t (*ConnectivityManagerImpl::spe_transmit)(void *h, void *buffer, size_t len);
 // ==================== ConnectivityManager Platform Internal Methods ====================
 
 CHIP_ERROR ConnectivityManagerImpl::_Init()
